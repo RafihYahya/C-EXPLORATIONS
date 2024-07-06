@@ -1,0 +1,2 @@
+This Repo is mainly for testing various implementations, of very common algorithms and data structures.
+As well as many other things like graphical programming, low level programming and kernel custom modules.
