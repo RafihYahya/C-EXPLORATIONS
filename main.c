@@ -4,6 +4,8 @@
 #include <time.h>
 #include <unistd.h>
 
+
+//TODO MAKE ENTIRE MODULE FOR ERROR HANDLING
 void error_reporting(int err) {
   //
   switch (err) {
