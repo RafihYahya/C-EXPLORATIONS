@@ -179,6 +179,7 @@ int delete_tree_node(struct TREE *root, struct TREE *toDeleteNode,
 }
 
 int estimated_tree_size(struct TREE *root, int acc) {
+  // TODO CHECK
   int tmp = acc;
   if (root->left_ptr != NULL) {
     tmp = estimated_tree_size(root->left_ptr, tmp + 1);
@@ -188,30 +189,54 @@ int estimated_tree_size(struct TREE *root, int acc) {
   }
   return tmp;
 }
-
-struct TREE *last_nodes_tree(struct TREE *root, struct TREE *nodeList) {
-  // TODO CHECK IF ITS WORKING
-  struct TREE *tmp = nodeList;
+//
+static int output2 = 0;
+int last_nodes_tree(struct TREE *root, struct TREE **nodeList) {
   if (root->left_ptr == NULL && root->right_ptr == NULL) {
-    tmp = root;
-    tmp++;
+    if (*nodeList == NULL) {
+    }
+    *(nodeList + output2 * sizeof(struct TREE *)) = root;
+    output2++;
   }
   if (root->left_ptr != NULL) {
-    tmp = last_nodes_tree(root->left_ptr, tmp);
+    output2 = last_nodes_tree(root->left_ptr, nodeList);
   }
   if (root->right_ptr != NULL) {
-    tmp = last_nodes_tree(root->right_ptr, tmp);
+    output2 = last_nodes_tree(root->right_ptr, nodeList);
   }
-  return tmp;
+  return output2;
 }
 
+/*
+void last_nodes_tree(struct TREE *root, struct TREE **nodeList) {
+  if (root->left_ptr == NULL && root->right_ptr == NULL) {
+
+    for (int i = 0; i < 10; i++) {
+      if (tmp[i] == NULL) {
+        tmp[i] = root;
+        break;
+      }
+    }
+    //*nodeList = root;
+  }
+  if (root->left_ptr != NULL) {
+    last_nodes_tree(root->left_ptr, nodeList);
+  }
+  if (root->right_ptr != NULL) {
+    last_nodes_tree(root->right_ptr, nodeList);
+  }
+} */
+
+//
 int inject_tree_node(struct TREE *root, struct TREE *node,
                      short int withBranch) {
+  // TODO CHECK
+
   int size = estimated_tree_size(root, 0);
   struct TREE **p = malloc(sizeof(struct TREE *) * size);
   if (p != NULL) {
-    struct TREE *k = last_nodes_tree(root, *p);
-    if (*p != k) {
+    last_nodes_tree(root, p);
+    if (*p != NULL) {
       if (withBranch == 0) {
         node->left_ptr = NULL;
         node->right_ptr = NULL;

@@ -46,7 +46,7 @@ int show_tree_node(int location, int direction, struct TREE *root, int recFlag);
 // COMMON OPERATIONS
 
 int update_node_intree(struct TREE *node, struct TREE *tmp);
-struct TREE *last_nodes_tree(struct TREE *root, struct TREE *nodeList);
+int last_nodes_tree(struct TREE *root, struct TREE **nodeList);
 struct TREE *find_tree_node_parent(struct TREE *root, struct TREE *node);
 int estimated_tree_size(struct TREE *root,int acc);
 int delete_tree_node(struct TREE *root, struct TREE *toDeleteNode,
@@ -61,5 +61,7 @@ int free_tree_node(struct TREE *node,int freeALLBranch);
 
 // SPECIAL OPERATIONS
 int reorder_tree_based_onRGB(struct TREE *root);
+
+void print_static_var();
 
 

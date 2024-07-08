@@ -4,8 +4,7 @@
 #include <time.h>
 #include <unistd.h>
 
-
-//TODO MAKE ENTIRE MODULE FOR ERROR HANDLING
+// TODO MAKE ENTIRE MODULE FOR ERROR HANDLING
 void error_reporting(int err) {
   //
   switch (err) {
@@ -146,7 +145,7 @@ int main(int argc, char *argv[]) {
   char *tree_title1 = " Meine Leebne1";
   char *tree_body2 = " Meine Leebne Deine miaw2";
   char *tree_title2 = " Meine Leebne2";
-  char *tree_body3 =" Meine Leebne Deine miaw3";
+  char *tree_body3 = " Meine Leebne Deine miaw3";
   char *tree_title3 = " Meine Leebne3";
   char *tree_body4 = " Meine Leebne Deine miaw4";
   char *tree_title4 = " Meine Leebne4";
@@ -184,20 +183,31 @@ int main(int argc, char *argv[]) {
   node6->left_ptr = NULL;
   node6->right_ptr = NULL;
 
-
   //
   //
   //
   show_tree(root);
   esSize = estimated_tree_size(root, 0);
-  printf(""BOLD"\n=> Level Size of Root TREE Is "ANSI_COLOR_RED"%d"ANSI_COLOR_RESET". \n"NORMAL"",esSize);
+  printf("" BOLD "\n=> Level Size of Root TREE Is " ANSI_COLOR_RED
+         "%d" ANSI_COLOR_RESET ". \n" NORMAL "",
+         esSize);
   err = show_tree_node(0, 1, root, 0);
   err = show_tree_node(2, 1, root, 0);
 
   //
-  // struct TREE *tmp001 = find_tree_node_parent(root, node2);
+  struct TREE *tmp001 = find_tree_node_parent(root, node2);
   // printf("tnp001 addres is %p \n", tmp001);
   // printf("node2  addres is %p \n", node2);
+  int tmpSize = estimated_tree_size(root, 0);
+  printf("size is %d \n", tmpSize);
+  struct TREE **p = (struct TREE **)malloc(sizeof(struct TREE *) * 6);
+  last_nodes_tree(root, p);
+
+  for (int i = 0; i < 4; i++) {
+    if (*(p + i * sizeof(struct TREE *)) != NULL) {
+      printf("\nActual Value %s\n", (*(p + i * sizeof(struct TREE *)))->title);
+    }
+  }
 
 #ifdef LINKED
 #ifndef DUMMY
