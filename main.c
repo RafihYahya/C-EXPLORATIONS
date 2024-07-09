@@ -200,13 +200,11 @@ int main(int argc, char *argv[]) {
   // printf("node2  addres is %p \n", node2);
   int tmpSize = estimated_tree_size(root, 0);
   printf("size is %d \n", tmpSize);
-  struct TREE **p = (struct TREE **)malloc(sizeof(struct TREE *) * 6);
+  struct TREE **p = (struct TREE **)malloc(sizeof(struct TREE *) * 4);
   last_nodes_tree(root, p);
-
+  printf("\n\n "BOLD"LIST OF ORPHAN NODES "NORMAL"\n\n");
   for (int i = 0; i < 4; i++) {
-    if (*(p + i * sizeof(struct TREE *)) != NULL) {
-      printf("\nActual Value %s\n", (*(p + i * sizeof(struct TREE *)))->title);
-    }
+  formatted_tree_print(*(p+i));
   }
 
 #ifdef LINKED

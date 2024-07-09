@@ -195,7 +195,8 @@ int last_nodes_tree(struct TREE *root, struct TREE **nodeList) {
   if (root->left_ptr == NULL && root->right_ptr == NULL) {
     if (*nodeList == NULL) {
     }
-    *(nodeList + output2 * sizeof(struct TREE *)) = root;
+    *(nodeList + output2 ) = root;
+    printf("Miaw %s\n",(**(nodeList + output2 )).title);
     output2++;
   }
   if (root->left_ptr != NULL) {
