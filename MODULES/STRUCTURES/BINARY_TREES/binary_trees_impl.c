@@ -6,7 +6,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-void formatted_tree_print(struct TREE *tmp) {
+ void formatted_tree_print(struct TREE *tmp) {
   printf("\n." BOLD "->" BOLD " The " BOLD "Title" NORMAL
          " is" ANSI_COLOR_YELLOW BOLD "%s\n" NORMAL ANSI_COLOR_RESET "." BOLD
          "->" BOLD " The " BOLD "Body" NORMAL " is " ANSI_COLOR_CYAN BOLD
@@ -193,10 +193,9 @@ int estimated_tree_size(struct TREE *root, int acc) {
 static int output2 = 0;
 int last_nodes_tree(struct TREE *root, struct TREE **nodeList) {
   if (root->left_ptr == NULL && root->right_ptr == NULL) {
-    if (*nodeList == NULL) {
-    }
-    *(nodeList + output2 ) = root;
-    printf("Miaw %s\n",(**(nodeList + output2 )).title);
+
+    *(nodeList + output2) = root;
+    printf("Miaw %s\n", (**(nodeList + output2)).title);
     output2++;
   }
   if (root->left_ptr != NULL) {
@@ -207,42 +206,35 @@ int last_nodes_tree(struct TREE *root, struct TREE **nodeList) {
   }
   return output2;
 }
+struct TREE *singular_orphan_nodeTree(struct TREE *root, struct TREE *p) {
+  // TODO CHECK
 
-/*
-void last_nodes_tree(struct TREE *root, struct TREE **nodeList) {
   if (root->left_ptr == NULL && root->right_ptr == NULL) {
-
-    for (int i = 0; i < 10; i++) {
-      if (tmp[i] == NULL) {
-        tmp[i] = root;
-        break;
-      }
-    }
-    //*nodeList = root;
+    p = root;
+    return p;
   }
   if (root->left_ptr != NULL) {
-    last_nodes_tree(root->left_ptr, nodeList);
+    singular_orphan_nodeTree(root->left_ptr, p);
   }
   if (root->right_ptr != NULL) {
-    last_nodes_tree(root->right_ptr, nodeList);
+    singular_orphan_nodeTree(root->right_ptr, p);
   }
-} */
-
+  return p;
+}
 //
 int inject_tree_node(struct TREE *root, struct TREE *node,
                      short int withBranch) {
   // TODO CHECK
 
-  int size = estimated_tree_size(root, 0);
-  struct TREE **p = malloc(sizeof(struct TREE *) * size);
+  struct TREE *p = malloc(sizeof(struct TREE));
   if (p != NULL) {
-    last_nodes_tree(root, p);
-    if (*p != NULL) {
+    p = singular_orphan_nodeTree(root, p);
+    if (p != NULL) {
       if (withBranch == 0) {
         node->left_ptr = NULL;
         node->right_ptr = NULL;
       }
-      (*p)->left_ptr = node;
+      p->left_ptr = node;
     } else {
       return 2;
     }
@@ -250,4 +242,38 @@ int inject_tree_node(struct TREE *root, struct TREE *node,
     return 1;
   }
   return 0;
+}
+
+int swap_tree_node(struct TREE *root, struct TREE *firstNode,
+                   struct TREE *secondNode, int swapFullBranches) {
+
+  // TODO CHECK
+  struct TREE *tmp;
+  if (swapFullBranches == 0) {
+    tmp = find_tree_node_parent(root, firstNode);
+    if (tmp == NULL) {
+      return 1;
+    }
+    if (tmp->left_ptr == firstNode) {
+      tmp->left_ptr = secondNode;
+
+    } else {
+      tmp->right_ptr = secondNode;
+    }
+    secondNode->left_ptr = firstNode->left_ptr;
+    secondNode->right_ptr = firstNode->right_ptr;
+    return 0;
+  } else {
+    tmp = find_tree_node_parent(root, firstNode);
+    if (tmp == NULL) {
+      return 1;
+    }
+    if (tmp->left_ptr == firstNode) {
+      tmp->left_ptr = secondNode;
+
+    } else {
+      tmp->right_ptr = secondNode;
+    }
+    return 0;
+  }
 }
