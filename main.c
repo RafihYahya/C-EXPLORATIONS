@@ -1,6 +1,7 @@
 #include "main.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -18,6 +19,15 @@ void error_reporting(int err) {
     printf("\nFUNCTION DIDNT EVEN EXECUTE \n");
     break;
   }
+}
+void my_variadric_func(int n, ...) {
+  va_list ptr;
+  va_start(ptr, n);
+  printf("Number raw ptr num : %d \n \n",  va_arg(ptr,int));
+  for (int i = 0 ; i < n; i++) {
+  //printf("Number num : %d \n",  va_arg(ptr, int));
+  }
+
 }
 int show_help() {
   printf("\n This mini program can handle multiple data structures.\n For "
@@ -133,9 +143,15 @@ int main(int argc, char *argv[]) {
   if (argc == 2) {
     if (strcmp(argv[1], "--help") == 0) {
       show_help();
+      return 0;
     }
     if (strcmp(argv[1], "--info") == 0) {
       show_sizes();
+      return 0;
+    }
+    if (strcmp(argv[1], "--vart") == 0) {
+      my_variadric_func(5,14,7,9,5,6);
+      return 0;
     }
   }
 
@@ -202,9 +218,9 @@ int main(int argc, char *argv[]) {
   printf("size is %d \n", tmpSize);
   struct TREE **p = (struct TREE **)malloc(sizeof(struct TREE *) * 4);
   last_nodes_tree(root, p);
-  printf("\n\n "BOLD"LIST OF ORPHAN NODES "NORMAL"\n\n");
+  printf("\n\n " BOLD "LIST OF ORPHAN NODES " NORMAL "\n\n");
   for (int i = 0; i < 4; i++) {
-  formatted_tree_print(*(p+i));
+    formatted_tree_print(*(p + i));
   }
 
 #ifdef LINKED
